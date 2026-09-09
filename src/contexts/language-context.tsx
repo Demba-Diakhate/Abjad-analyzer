@@ -16,7 +16,6 @@ interface LanguageContextValue {
   dir: 'ltr' | 'rtl';
   t: Dictionary;
   setLanguage: (lang: Language) => void;
-  toggleLanguage: () => void;
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -40,16 +39,11 @@ export function LanguageProvider({
     document.cookie = `${LANGUAGE_COOKIE}=${next}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
   }, []);
 
-  const toggleLanguage = useCallback(() => {
-    setLanguage(lang === 'fr' ? 'ar' : 'fr');
-  }, [lang, setLanguage]);
-
   const value: LanguageContextValue = {
     lang,
     dir: lang === 'ar' ? 'rtl' : 'ltr',
     t: dictionaries[lang],
     setLanguage,
-    toggleLanguage,
   };
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

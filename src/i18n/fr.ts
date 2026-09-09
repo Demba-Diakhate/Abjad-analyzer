@@ -10,8 +10,6 @@ export const fr = {
     skipToContent: 'Aller au contenu principal',
   },
   header: {
-    switchToAr: 'التبديل إلى العربية',
-    switchToFr: 'Passer en français',
     languageLabel: 'Langue',
   },
   nav: {

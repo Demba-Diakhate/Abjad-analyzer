@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpenText, History, Hash } from 'lucide-react';
+import { BookOpenText, History, Hash, SquarePen } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
-import { cn } from '@/lib/utils';
+import type { Language } from '@/i18n';
 
 export function Header() {
-  const { t, lang, toggleLanguage, dir } = useLanguage();
+  const { t, lang, setLanguage } = useLanguage();
   const pathname = usePathname();
 
   return (
@@ -28,6 +28,14 @@ export function Header() {
 
         <nav className="flex items-center gap-1">
           <Link
+            href="/"
+            aria-current={pathname === '/' ? 'page' : undefined}
+            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
+          >
+            <SquarePen aria-hidden="true" className="h-4 w-4" />
+            <span className="hidden sm:inline">{t.nav.home}</span>
+          </Link>
+          <Link
             href="/history"
             aria-current={pathname === '/history' ? 'page' : undefined}
             className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
@@ -44,17 +52,16 @@ export function Header() {
             <span className="hidden sm:inline">{t.nav.methodology}</span>
           </Link>
 
-          <button
-            type="button"
-            onClick={toggleLanguage}
-            aria-label={lang === 'fr' ? t.header.switchToAr : t.header.switchToFr}
-            title={t.header.languageLabel}
-            className="ms-1 inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-300 px-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
+          <select
+            value={lang}
+            onChange={(event) => setLanguage(event.target.value as Language)}
+            aria-label={t.header.languageLabel}
+            className="ms-1 h-8 cursor-pointer rounded-lg border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
           >
-            <span aria-hidden="true" className={cn(dir === 'rtl' && 'rtl:tracking-normal')}>
-              {lang === 'fr' ? 'AR' : 'FR'}
-            </span>
-          </button>
+            <option value="fr">FR</option>
+            <option value="ar">AR</option>
+            <option value="wo">WO</option>
+          </select>
         </nav>
       </div>
     </header>

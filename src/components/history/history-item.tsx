@@ -5,14 +5,16 @@ import { ExternalLink, Star, Trash2 } from 'lucide-react';
 import type { HistoryRecord } from '@/types';
 import { useHistory } from '@/hooks/use-history';
 import { useLanguage } from '@/contexts/language-context';
+import type { Language } from '@/i18n';
 import { cn, formatNumber } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 
 const OPEN_RECORD_KEY = 'abjad:open-record';
 
-function DateLabel({ iso, lang }: { iso: string; lang: 'fr' | 'ar' }) {
+function DateLabel({ iso, lang }: { iso: string; lang: Language }) {
+  const locale = lang === 'ar' ? 'ar' : lang === 'wo' ? 'fr-SN' : 'fr-FR';
   try {
-    return new Intl.DateTimeFormat(lang === 'ar' ? 'ar' : 'fr-FR', {
+    return new Intl.DateTimeFormat(locale, {
       dateStyle: 'short',
       timeStyle: 'short',
     }).format(new Date(iso));

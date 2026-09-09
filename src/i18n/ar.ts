@@ -12,8 +12,6 @@ export const ar: Dictionary = {
     skipToContent: 'الانتقال إلى المحتوى الرئيسي',
   },
   header: {
-    switchToAr: 'التبديل إلى العربية',
-    switchToFr: 'التبديل إلى الفرنسية',
     languageLabel: 'اللغة',
   },
   nav: {
