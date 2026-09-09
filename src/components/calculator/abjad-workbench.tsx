@@ -13,7 +13,7 @@ import { ConfigPanel } from './config-panel';
 import { OcrPanel, type OcrPanelMode } from '@/components/ocr/ocr-panel';
 import { ResultDashboard } from '@/components/results/result-dashboard';
 import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn, formatNumber } from '@/lib/utils';
 
 export function AbjadWorkbench() {
   const { t } = useLanguage();
@@ -81,6 +81,47 @@ export function AbjadWorkbench() {
       </div>
 
       <div className="space-y-4">
+        {abjad.result && (
+          <section
+            aria-label={t.home.result}
+            className="rounded-2xl border border-amber-200 bg-amber-50/60 p-4 shadow-sm"
+          >
+            <p className="sr-only" aria-live="polite">
+              {t.results.totalValue} : {formatNumber(abjad.result.totalValue)}
+              {abjad.result.reducedValue !== undefined &&
+                `, ${t.results.reduction} : ${formatNumber(abjad.result.reducedValue)}`}
+            </p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  {t.results.totalValue}
+                </p>
+                <p className="font-arabic text-3xl font-bold tabular-nums text-zinc-900">
+                  {formatNumber(abjad.result.totalValue)}
+                </p>
+              </div>
+              {abjad.result.reducedValue !== undefined && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                    {t.results.reduction}
+                  </p>
+                  <p className="font-arabic text-3xl font-bold tabular-nums text-zinc-900">
+                    {formatNumber(abjad.result.reducedValue)}
+                  </p>
+                </div>
+              )}
+              <div className="ms-auto flex flex-wrap items-center gap-2">
+                <span className="inline-flex h-6 items-center rounded-full bg-amber-100 px-2.5 text-xs font-semibold text-amber-800">
+                  {t.results.methods[abjad.config.method]}
+                </span>
+                <span className="inline-flex h-6 items-center rounded-full bg-amber-100 px-2.5 text-xs font-semibold text-amber-800">
+                  {t.config.systems[abjad.config.system]}
+                </span>
+              </div>
+            </div>
+          </section>
+        )}
+
         <TextInput value={abjad.text} onChange={handleTextChange} />
 
         <div className="flex flex-wrap items-center justify-between gap-3">

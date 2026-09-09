@@ -1,4 +1,4 @@
-import type { AbjadResult, CalculationConfig, LetterBreakdown } from '@/types';
+import type { AbjadResult, AbjadSystem, CalculationConfig, LetterBreakdown } from '@/types';
 import { getAbjadValue, getElement } from './alphabet';
 import { normalizeText } from './normalizer';
 import { parseGraphemes, type GraphemeToken } from './grapheme-parser';
@@ -23,8 +23,12 @@ export interface CalculateOptions {
   config: CalculationConfig;
 }
 
-function computeTokenValue(token: GraphemeToken, method: CalculationConfig['method']): number {
-  const baseValue = getAbjadValue(token.base);
+function computeTokenValue(
+  token: GraphemeToken,
+  method: CalculationConfig['method'],
+  system: AbjadSystem
+): number {
+  const baseValue = getAbjadValue(token.base, system);
   if (baseValue === undefined) {
     return 0;
   }
@@ -43,13 +47,14 @@ function computeTokenValue(token: GraphemeToken, method: CalculationConfig['meth
 function buildBreakdown(
   tokens: GraphemeToken[],
   normalizedText: string,
-  method: CalculationConfig['method']
+  method: CalculationConfig['method'],
+  system: AbjadSystem
 ): LetterBreakdown[] {
   const breakdown: LetterBreakdown[] = [];
   let position = 0;
 
   for (const token of tokens) {
-    const hasAbjad = getAbjadValue(token.base) !== undefined;
+    const hasAbjad = getAbjadValue(token.base, system) !== undefined;
     const isTatweel = token.base === '\u0640';
 
     let ignored = false;
@@ -60,7 +65,7 @@ function buildBreakdown(
       ignored = true;
       explanation = isTatweel ? 'Tatweel supprimé' : 'caractère non Abjad';
     } else {
-      value = computeTokenValue(token, method);
+      value = computeTokenValue(token, method, system);
     }
 
     breakdown.push({
@@ -95,7 +100,7 @@ function computeElementDistribution(tokens: GraphemeToken[]): {
 
 export function calculateAbjad(options: CalculateOptions): AbjadResult {
   const { text, config } = options;
-  const { method, reduction, phoneticMode, normalization } = config;
+  const { method, system, reduction, phoneticMode, normalization } = config;
 
   const { normalized } = normalizeText(text, {
     config: normalization,
@@ -104,7 +109,7 @@ export function calculateAbjad(options: CalculateOptions): AbjadResult {
 
   const tokens = parseGraphemes(normalized);
 
-  const breakdown = buildBreakdown(tokens, normalized, method);
+  const breakdown = buildBreakdown(tokens, normalized, method, system);
 
   const totalValue = breakdown.reduce((acc, item) => acc + item.value, 0);
 

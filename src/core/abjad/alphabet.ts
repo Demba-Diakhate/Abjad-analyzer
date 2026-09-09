@@ -1,3 +1,5 @@
+import type { AbjadSystem } from '@/types';
+
 export const ABJAD_VALUES: Record<string, number> = {
   ا: 1,
   ب: 2,
@@ -29,14 +31,53 @@ export const ABJAD_VALUES: Record<string, number> = {
   غ: 1000,
 };
 
+export const ABJAD_MAGHRIBI: Record<string, number> = {
+  ا: 1,
+  ب: 2,
+  ج: 3,
+  د: 4,
+  ه: 5,
+  و: 6,
+  ز: 7,
+  ح: 8,
+  ط: 9,
+  ي: 10,
+  ك: 20,
+  ل: 30,
+  م: 40,
+  ن: 50,
+  ص: 60,
+  ع: 70,
+  ف: 80,
+  ض: 90,
+  ق: 100,
+  ر: 200,
+  س: 300,
+  ت: 400,
+  ث: 500,
+  خ: 600,
+  ذ: 700,
+  ظ: 800,
+  غ: 900,
+  ش: 1000,
+};
+
+export const ABJAD_TABLES: Record<AbjadSystem, Record<string, number>> = {
+  mashriqi: ABJAD_VALUES,
+  maghribi: ABJAD_MAGHRIBI,
+};
+
 export const ABJAD_LETTERS: string[] = Object.keys(ABJAD_VALUES);
 
 export function isAbjadLetter(char: string): boolean {
   return Object.prototype.hasOwnProperty.call(ABJAD_VALUES, char);
 }
 
-export function getAbjadValue(char: string): number | undefined {
-  return ABJAD_VALUES[char];
+export function getAbjadValue(
+  char: string,
+  system: AbjadSystem = 'mashriqi'
+): number | undefined {
+  return ABJAD_TABLES[system][char];
 }
 
 export const FIRE_LETTERS = new Set(['أ', 'ه', 'ط', 'م', 'ف', 'ش', 'ذ']);

@@ -1,5 +1,7 @@
 export {
   ABJAD_VALUES,
+  ABJAD_MAGHRIBI,
+  ABJAD_TABLES,
   ABJAD_LETTERS,
   isAbjadLetter,
   getAbjadValue,

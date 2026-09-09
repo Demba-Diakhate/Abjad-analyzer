@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { AlertTriangle, ArrowUp } from 'lucide-react';
 import {
   ABJAD_VALUES,
+  ABJAD_MAGHRIBI,
   calculateAbjad,
   DEFAULT_CALCULATION_CONFIG,
   getElement,
@@ -16,6 +17,7 @@ import type { ElementType } from '@/types';
 
 const BISM = 'بسم الله الرحمن الرحيم';
 const SHADDA_SAMPLE = 'بِّب';
+const MAGHRIBI_SAMPLE = 'سلم';
 
 const ELEMENT_LABEL_KEYS: Record<ElementType, 'fire' | 'earth' | 'air' | 'water'> = {
   fire: 'fire',
@@ -71,9 +73,29 @@ export function MethodologyView() {
   const reducedGrand = reduceValue(grandTotal);
   const shaddaTotal = calculateAbjad({ text: SHADDA_SAMPLE, config: phoneticConfig }).totalValue;
 
+  const mashriqiConfig = { ...DEFAULT_CALCULATION_CONFIG, system: 'mashriqi' as const };
+  const maghribiConfig = { ...DEFAULT_CALCULATION_CONFIG, system: 'maghribi' as const };
+  const mashriqiSample = calculateAbjad({
+    text: MAGHRIBI_SAMPLE,
+    config: mashriqiConfig,
+  }).totalValue;
+  const maghribiSample = calculateAbjad({
+    text: MAGHRIBI_SAMPLE,
+    config: maghribiConfig,
+  }).totalValue;
+
+  const maghribiDiffs = Object.entries(ABJAD_VALUES)
+    .filter(([letter, value]) => ABJAD_MAGHRIBI[letter] !== value)
+    .map(([letter, mashriqi]) => ({
+      letter,
+      mashriqi,
+      maghribi: ABJAD_MAGHRIBI[letter],
+    }));
+
   const sections = [
     { id: 'intro', title: t.methodology.intro.title },
     { id: 'table', title: t.methodology.table.title },
+    { id: 'maghribi', title: t.methodology.maghribi.title },
     { id: 'grand', title: t.methodology.grand.title },
     { id: 'petit', title: t.methodology.petit.title },
     { id: 'reduction', title: t.methodology.reduction.title },
@@ -168,17 +190,59 @@ export function MethodologyView() {
                     <td className="font-arabic px-4 py-2 text-xl">{row.letter}</td>
                     <td className="px-4 py-2 text-end tabular-nums">{row.value}</td>
                     <td className="px-4 py-2 text-end tabular-nums">{row.small}</td>
-                    <td className="px-4 py-2 text-end">
-                      {row.element
-                        ? t.results[ELEMENT_LABEL_KEYS[row.element]]
-                        : t.methodology.table.none}
-                    </td>
+<td className="px-4 py-2 text-end">
+                {row.element
+                  ? t.methodology.elements.names[ELEMENT_LABEL_KEYS[row.element]]
+                  : t.methodology.table.none}
+              </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <p className="text-xs text-zinc-400">{t.methodology.table.alifNote}</p>
+        </Section>
+
+        <Section id="maghribi" title={t.methodology.maghribi.title}>
+          <p>{t.methodology.maghribi.body}</p>
+          <p className="font-medium text-zinc-700">{t.methodology.maghribi.diffNote}</p>
+          <div className="overflow-x-auto rounded-xl border border-zinc-200">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-zinc-50 text-start text-zinc-500">
+                  <th scope="col" className="px-4 py-2 font-medium">
+                    {t.methodology.maghribi.colLetter}
+                  </th>
+                  <th scope="col" className="px-4 py-2 text-end font-medium">
+                    {t.methodology.maghribi.colMashriqi}
+                  </th>
+                  <th scope="col" className="px-4 py-2 text-end font-medium">
+                    {t.methodology.maghribi.colMaghribi}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {maghribiDiffs.map((row) => (
+                  <tr
+                    key={row.letter}
+                    className="border-t border-zinc-100 text-zinc-700"
+                  >
+                    <td className="font-arabic px-4 py-2 text-xl">{row.letter}</td>
+                    <td className="px-4 py-2 text-end tabular-nums">{row.mashriqi}</td>
+                    <td className="px-4 py-2 text-end font-semibold tabular-nums text-amber-800">
+                      {row.maghribi}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <Summary>
+            {t.methodology.maghribi.exampleLead
+              .replace('{text}', MAGHRIBI_SAMPLE)
+              .replace('{mashriqi}', String(mashriqiSample))
+              .replace('{maghribi}', String(maghribiSample))}
+          </Summary>
         </Section>
 
         <Section id="grand" title={t.methodology.grand.title}>

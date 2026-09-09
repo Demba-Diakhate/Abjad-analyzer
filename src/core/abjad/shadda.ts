@@ -1,6 +1,7 @@
 import { parseGraphemes, type GraphemeToken } from './grapheme-parser';
 import { getAbjadValue } from './alphabet';
 import { toSmallAbjad } from './reducer';
+import type { AbjadSystem } from '@/types';
 
 export const SHADDA_CHAR = '\u0651';
 
@@ -42,8 +43,11 @@ export function countPhoneticLetters(tokens: GraphemeToken[]): number {
   return tokens.reduce((acc, t) => acc + expandShadda(t).length, 0);
 }
 
-export function hasShaddaOnAbjadLetter(token: GraphemeToken): boolean {
-  return token.hasShadda && getAbjadValue(token.base) !== undefined;
+export function hasShaddaOnAbjadLetter(
+  token: GraphemeToken,
+  system: AbjadSystem = 'mashriqi'
+): boolean {
+  return token.hasShadda && getAbjadValue(token.base, system) !== undefined;
 }
 
 export { parseGraphemes };

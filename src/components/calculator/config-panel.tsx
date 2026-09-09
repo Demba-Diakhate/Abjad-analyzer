@@ -9,6 +9,7 @@ import { Toggle } from '@/components/ui/toggle';
 function isEqualConfig(a: CalculationConfig, b: CalculationConfig): boolean {
   return (
     a.method === b.method &&
+    a.system === b.system &&
     a.reduction === b.reduction &&
     a.phoneticMode === b.phoneticMode &&
     a.normalization.convertHamza === b.normalization.convertHamza &&
@@ -70,6 +71,42 @@ export function ConfigPanel({
                   )}
                 >
                   {t.config.profiles[key]}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Système Abjad */}
+        <div>
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            {t.config.system}
+          </h3>
+          <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={t.config.system}>
+            {(['mashriqi', 'maghribi'] as const).map((sys) => {
+              const selected = config.system === sys;
+              return (
+                <button
+                  key={sys}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  onClick={() => updateConfig({ system: sys })}
+                  className={cn(
+                    'rounded-xl border p-3 text-start transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500',
+                    selected
+                      ? 'border-amber-500 bg-amber-50'
+                      : 'border-zinc-200 bg-white hover:bg-zinc-50'
+                  )}
+                >
+                  <span className="block text-sm font-semibold text-zinc-900">
+                    {t.config.systems[sys]}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-zinc-500">
+                    {sys === 'mashriqi'
+                      ? t.config.mashriqiDesc
+                      : t.config.maghribiDesc}
+                  </span>
                 </button>
               );
             })}

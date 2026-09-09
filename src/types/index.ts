@@ -8,8 +8,11 @@ export interface NormalizationConfig {
 
 export type CalculationMethod = 'classic' | 'reduced';
 
+export type AbjadSystem = 'mashriqi' | 'maghribi';
+
 export interface CalculationConfig {
   method: CalculationMethod;
+  system: AbjadSystem;
   reduction: boolean;
   phoneticMode: boolean;
   normalization: NormalizationConfig;

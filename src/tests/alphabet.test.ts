@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ABJAD_VALUES, isAbjadLetter, getAbjadValue, getElement } from '@/core/abjad';
+import { ABJAD_VALUES, ABJAD_MAGHRIBI, isAbjadLetter, getAbjadValue, getElement } from '@/core/abjad';
 
 describe('Table Abjad — les 28 lettres', () => {
   it('contient exactement 28 lettres', () => {
@@ -53,6 +53,41 @@ describe('Table Abjad — les 28 lettres', () => {
 
   it('retourne undefined pour une valeur absente', () => {
     expect(getAbjadValue('x')).toBeUndefined();
+  });
+});
+
+describe('Table Maghribi', () => {
+  it('contient exactement 28 lettres', () => {
+    expect(Object.keys(ABJAD_MAGHRIBI)).toHaveLength(28);
+  });
+
+  it.each([
+    ['ا', 1],
+    ['ج', 3],
+    ['ن', 50],
+    ['ص', 60],
+    ['ق', 100],
+    ['ر', 200],
+    ['ظ', 800],
+    ['غ', 900],
+    ['س', 300],
+    ['ش', 1000],
+  ] as const)('en Maghribi la lettre %s vaut %d', (letter, expected) => {
+    expect(getAbjadValue(letter, 'maghribi')).toBe(expected);
+  });
+
+  it('ne change que 6 valeurs par rapport au Mashriqi', () => {
+    const diffs = Object.keys(ABJAD_VALUES).filter(
+      (letter) => ABJAD_VALUES[letter] !== ABJAD_MAGHRIBI[letter]
+    );
+    expect(diffs).toEqual(['س', 'ص', 'ش', 'ض', 'ظ', 'غ']);
+    expect(diffs).toHaveLength(6);
+  });
+
+  it('adopte le système mashriqi par défaut', () => {
+    expect(getAbjadValue('س')).toBe(60);
+    expect(getAbjadValue('س', 'mashriqi')).toBe(60);
+    expect(getAbjadValue('س', 'maghribi')).toBe(300);
   });
 });
 

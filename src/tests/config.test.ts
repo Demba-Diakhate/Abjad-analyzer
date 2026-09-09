@@ -8,6 +8,7 @@ import {
 describe('DEFAULT_CALCULATION_CONFIG', () => {
   it('repose sur le Grand Abjad sans réduction ni phonétique', () => {
     expect(DEFAULT_CALCULATION_CONFIG.method).toBe('classic');
+    expect(DEFAULT_CALCULATION_CONFIG.system).toBe('mashriqi');
     expect(DEFAULT_CALCULATION_CONFIG.reduction).toBe(false);
     expect(DEFAULT_CALCULATION_CONFIG.phoneticMode).toBe(false);
   });
@@ -42,6 +43,13 @@ describe('PROFILES', () => {
   it('phonetic active uniquement le mode phonétique', () => {
     expect(PROFILES.phonetic.phoneticMode).toBe(true);
     expect(PROFILES.phonetic.method).toBe('classic');
+    expect(PROFILES.phonetic.system).toBe('mashriqi');
     expect(PROFILES.phonetic.normalization).toEqual(DEFAULT_NORMALIZATION_CONFIG);
+  });
+
+  it('les profils utilisent le système mashriqi', () => {
+    for (const profile of Object.values(PROFILES)) {
+      expect(profile.system).toBe('mashriqi');
+    }
   });
 });
