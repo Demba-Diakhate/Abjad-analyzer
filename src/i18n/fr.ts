@@ -26,11 +26,11 @@ export const fr = {
     historyDescription: 'Retrouvez vos analyses Abjad sauvegardées.',
     methodologyTitle: 'Méthodologie',
     methodologyDescription:
-      'Grand Abjad, Petit Abjad, réduction, normalisation, Shadda et classification élémentaire.',
+      'Grand Abjad, réduction, normalisation, Shadda et classification élémentaire.',
   },
   home: {
     title: 'Analysez un texte arabe',
-    subtitle: 'Grand Abjad · Petit Abjad · Réduction · Normalisation',
+    subtitle: 'Grand Abjad · Réduction · Normalisation',
     placeholder: 'اكتب النص العربي هنا...',
     textareaLabel: 'Texte arabe à analyser',
     charCount: '{count} caractères',
@@ -69,8 +69,8 @@ export const fr = {
       invalid_type: 'Format d’image non pris en charge (JPEG, PNG, WebP, GIF uniquement).',
       file_too_large: 'Fichier trop volumineux (5 Mo maximum).',
       empty_result: 'Aucun texte détecté sur cette image.',
-      provider_unavailable: 'Le service OCR n’est pas configuré.',
-      provider_error: 'Le service OCR a échoué. Réessayez dans un instant.',
+      provider_unavailable: 'Le moteur OCR n’a pas pu être chargé. Vérifiez votre connexion, puis réessayez.',
+      provider_error: 'La reconnaissance du texte a échoué. Réessayez.',
     },
   },
   camera: {
@@ -84,7 +84,6 @@ export const fr = {
     errorGeneric: 'La caméra est inaccessible.',
   },
   config: {
-    method: 'Méthode de calcul',
     system: 'Système Abjad',
     systems: {
       mashriqi: 'Mashriqi (Est)',
@@ -92,10 +91,6 @@ export const fr = {
     },
     mashriqiDesc: 'Ordre traditionnel oriental',
     maghribiDesc: 'Ordre traditionnel maghrébin',
-    grandAbjad: 'Grand Abjad',
-    petitAbjad: 'Petit Abjad',
-    grandAbjadDesc: 'Somme brute des valeurs des lettres',
-    petitAbjadDesc: 'Valeurs ramenées entre 1 et 9',
     reduction: 'Réduction numérique',
     phoneticMode: 'Mode phonétique — Shadda ×2',
     normalization: 'Filtres de normalisation',
@@ -117,7 +112,6 @@ export const fr = {
   results: {
     totalValue: 'Valeur totale',
     reduction: 'Réduction',
-    method: 'Méthode',
     notAvailable: '—',
     breakdown: 'Décomposition lettre par lettre',
     letter: 'Lettre',
@@ -128,10 +122,6 @@ export const fr = {
     nonAbjad: 'caractère non Abjad',
     tatweelRemoved: 'Tatweel supprimé',
     shaddaLabel: 'Shadda ×2',
-    methods: {
-      classic: 'Grand Abjad',
-      reduced: 'Petit Abjad',
-    },
   },
   history: {
     title: 'Historique',
@@ -171,7 +161,7 @@ export const fr = {
         'saisie du texte — manuellement, par OCR ou par caméra ;',
         'normalisation optionnelle du texte ;',
         'attribution d’une valeur à chaque lettre comptée ;',
-        'synthèse des résultats : total, Petit Abjad, réduction, décomposition, éléments.',
+        'synthèse des résultats : total, réduction, décomposition.',
       ],
       body2: 'Le flux de l’application suit ce principe : Écrire → Calculer → Comprendre.',
     },
@@ -180,7 +170,6 @@ export const fr = {
       body: 'L’alphabet arabe compte 28 lettres. Chaque lettre reçoit une valeur selon l’ordre traditionnel du Grand Abjad, regroupée en unités (1-9), dizaines (10-90), centaines (100-900) et milliers (1000).',
       colLetter: 'Lettre',
       colValue: 'Grand Abjad',
-      colSmall: 'Petit Abjad',
       colElement: 'Élément',
       none: '—',
       alifNote: 'L’alef (ا) n’appartient à aucun élément dans la classification retenue.',
@@ -196,23 +185,17 @@ export const fr = {
     },
     grand: {
       title: '3 · Grand Abjad',
-      body: 'Le Grand Abjad additionne la valeur de toutes les lettres comptées du texte normalisé. C’est la méthode classique, sélectionnée par défaut.',
+      body: 'Le Grand Abjad additionne la valeur de toutes les lettres comptées du texte normalisé. C’est la seule méthode appliquée par l’outil.',
       exampleLead: 'Exemple — « {text} » :',
       equals: 'Total = {value}',
     },
-    petit: {
-      title: '4 · Petit Abjad',
-      body: 'Le Petit Abjad réduit chaque valeur à un nombre entre 1 et 9 en additionnant ses chiffres (10 → 1, 20 → 2, …, 90 → 9, 100 → 1, 1000 → 1). La somme des valeurs réduites donne le total.',
-      exampleLead: 'Exemple — mêmes lettres, chaque valeur réduite :',
-      equals: 'Total (Petit Abjad) = {value}',
-    },
     reduction: {
-      title: '5 · Réduction théosophique',
+      title: '4 · Réduction théosophique',
       body: 'La réduction théosophique ramène le total à un seul chiffre (1-9) en additionnant successivement les chiffres du résultat, tant que le total dépasse 9.',
       exampleLead: 'Exemple — 786 → 7 + 8 + 6 = 21 → 2 + 1 =',
     },
     normalization: {
-      title: '6 · Normalisation',
+      title: '5 · Normalisation',
       body: 'Avant le calcul, le texte peut être normalisé. Chaque règle est activable individuellement ; par défaut (profil Standard) toutes sont actives. La normalisation modifie l’orthographe, elle peut donc changer le résultat.',
       filterTitle: 'Règles disponibles',
       colRule: 'Règle',
@@ -226,13 +209,13 @@ export const fr = {
       ],
     },
     shadda: {
-      title: '7 · Shadda et mode phonétique',
+      title: '6 · Shadda et mode phonétique',
       body: 'La shadda ( ّ ) double une consonne. En mode phonétique, une lettre qui porte la shadda est comptée deux fois : sa valeur est doublée.',
       exampleLead: 'Exemple — « {text} » en mode phonétique : ب = 2 compté deux fois, plus ب = 2, soit',
       equals: '{value} au total',
     },
     ignored: {
-      title: '8 · Caractères non Abjad',
+      title: '7 · Caractères non Abjad',
       body: 'Les caractères qui ne sont pas des lettres Abjad n’ajoutent aucune valeur au calcul ; ils apparaissent dans la décomposition avec le statut « ignoré » :',
       list: [
         'chiffres (0-9) et signes numériques ;',
@@ -242,7 +225,7 @@ export const fr = {
       ],
     },
     elements: {
-      title: '9 · Classification élémentaire',
+      title: '8 · Classification élémentaire',
       body: 'Selon le système traditionnel, les lettres se répartissent entre quatre éléments. L’outil compte la part de chaque élément dans le texte analysé.',
       note: 'Cette classification est un système traditionnel, présenté à titre documentaire — pas une validation scientifique.',
       names: {
@@ -259,7 +242,7 @@ export const fr = {
       ],
     },
     limits: {
-      title: '10 · Limites méthodologiques',
+      title: '9 · Limites méthodologiques',
       body: 'Il convient d’interpréter les résultats avec prudence :',
       points: [
         'Le Grand Abjad est une variante parmi plusieurs ; les calculs reposent sur la table retenue ci-dessus.',

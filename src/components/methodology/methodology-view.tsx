@@ -9,7 +9,6 @@ import {
   DEFAULT_CALCULATION_CONFIG,
   getElement,
   reduceValue,
-  toSmallAbjad,
 } from '@/core/abjad';
 import { useLanguage } from '@/contexts/language-context';
 import { Card } from '@/components/ui/card';
@@ -64,12 +63,9 @@ function Highlight({ children }: { children: ReactNode }) {
 export function MethodologyView() {
   const { t } = useLanguage();
 
-  const grandConfig = { ...DEFAULT_CALCULATION_CONFIG };
-  const petitConfig = { ...DEFAULT_CALCULATION_CONFIG, method: 'reduced' as const };
   const phoneticConfig = { ...DEFAULT_CALCULATION_CONFIG, phoneticMode: true };
 
-  const grandTotal = calculateAbjad({ text: BISM, config: grandConfig }).totalValue;
-  const petitTotal = calculateAbjad({ text: BISM, config: petitConfig }).totalValue;
+  const grandTotal = calculateAbjad({ text: BISM, config: DEFAULT_CALCULATION_CONFIG }).totalValue;
   const reducedGrand = reduceValue(grandTotal);
   const shaddaTotal = calculateAbjad({ text: SHADDA_SAMPLE, config: phoneticConfig }).totalValue;
 
@@ -97,7 +93,6 @@ export function MethodologyView() {
     { id: 'table', title: t.methodology.table.title },
     { id: 'maghribi', title: t.methodology.maghribi.title },
     { id: 'grand', title: t.methodology.grand.title },
-    { id: 'petit', title: t.methodology.petit.title },
     { id: 'reduction', title: t.methodology.reduction.title },
     { id: 'normalization', title: t.methodology.normalization.title },
     { id: 'shadda', title: t.methodology.shadda.title },
@@ -109,7 +104,6 @@ export function MethodologyView() {
   const letterRows = Object.entries(ABJAD_VALUES).map(([letter, value]) => ({
     letter,
     value,
-    small: toSmallAbjad(value),
     element: getElement(letter),
   }));
 
@@ -174,9 +168,6 @@ export function MethodologyView() {
                     {t.methodology.table.colValue}
                   </th>
                   <th scope="col" className="px-4 py-2 text-end font-medium">
-                    {t.methodology.table.colSmall}
-                  </th>
-                  <th scope="col" className="px-4 py-2 text-end font-medium">
                     {t.methodology.table.colElement}
                   </th>
                 </tr>
@@ -187,10 +178,9 @@ export function MethodologyView() {
                     key={row.letter}
                     className="border-t border-zinc-100 text-zinc-700"
                   >
-                    <td className="font-arabic px-4 py-2 text-xl">{row.letter}</td>
+<td className="font-arabic px-4 py-2 text-xl">{row.letter}</td>
                     <td className="px-4 py-2 text-end tabular-nums">{row.value}</td>
-                    <td className="px-4 py-2 text-end tabular-nums">{row.small}</td>
-<td className="px-4 py-2 text-end">
+                    <td className="px-4 py-2 text-end">
                 {row.element
                   ? t.methodology.elements.names[ELEMENT_LABEL_KEYS[row.element]]
                   : t.methodology.table.none}
@@ -252,16 +242,6 @@ export function MethodologyView() {
           </Summary>
           <p className="text-sm text-zinc-700">
             {t.methodology.grand.equals.replace('{value}', String(grandTotal))}
-          </p>
-        </Section>
-
-        <Section id="petit" title={t.methodology.petit.title}>
-          <p>{t.methodology.petit.body}</p>
-          <Summary>
-            {t.methodology.petit.exampleLead.replace('{text}', 'بسم الله الرحمن الرحيم')}
-          </Summary>
-          <p className="text-sm text-zinc-700">
-            {t.methodology.petit.equals.replace('{value}', String(petitTotal))}
           </p>
         </Section>
 

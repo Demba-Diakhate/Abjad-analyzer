@@ -35,7 +35,7 @@ export function TextInput({
         rows={6}
         spellCheck={false}
         placeholder={t.home.placeholder}
-        className={`font-arabic w-full resize-y rounded-2xl border border-zinc-200 bg-white px-4 py-4 text-2xl leading-relaxed text-zinc-900 shadow-sm outline-none transition-shadow placeholder:text-zinc-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 sm:px-5 ${
+        className={`font-arabic w-full resize-y rounded-2xl border border-zinc-200 bg-white py-4 ps-4 pe-12 text-2xl leading-relaxed text-zinc-900 shadow-sm outline-none transition-shadow placeholder:text-zinc-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 sm:ps-5 sm:pe-12 ${
           focused ? 'ring-2 ring-amber-500/30' : ''
         }`}
       />

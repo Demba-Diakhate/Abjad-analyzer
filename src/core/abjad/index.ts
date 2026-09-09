@@ -26,9 +26,9 @@ export type { NormalizationChange, NormalizationResult } from './normalizer';
 export { parseGraphemes, SHADDA_CHAR } from './grapheme-parser';
 export type { GraphemeToken } from './grapheme-parser';
 
-export { reduceValue, toSmallAbjad } from './reducer';
+export { reduceValue } from './reducer';
 
-export { calculateAbjad, METHODS } from './calculator';
+export { calculateAbjad } from './calculator';
 export type { CalculateOptions } from './calculator';
 
 export {

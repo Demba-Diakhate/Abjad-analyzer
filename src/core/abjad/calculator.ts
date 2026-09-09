@@ -2,43 +2,21 @@ import type { AbjadResult, AbjadSystem, CalculationConfig, LetterBreakdown } fro
 import { getAbjadValue, getElement } from './alphabet';
 import { normalizeText } from './normalizer';
 import { parseGraphemes, type GraphemeToken } from './grapheme-parser';
-import { reduceValue, toSmallAbjad } from './reducer';
-import { shaddaMultiplier } from './shadda';
-
-export const METHODS = {
-  classic: {
-    id: 'classic',
-    name: 'Grand Abjad',
-    description: 'Somme brute des valeurs des lettres selon la table Abjad.',
-  },
-  reduced: {
-    id: 'reduced',
-    name: 'Petit Abjad',
-    description: 'Chaque valeur est ramenée entre 1 et 9 avant la somme.',
-  },
-} as const;
+import { reduceValue } from './reducer';
 
 export interface CalculateOptions {
   text: string;
   config: CalculationConfig;
 }
 
-function computeTokenValue(
-  token: GraphemeToken,
-  method: CalculationConfig['method'],
-  system: AbjadSystem
-): number {
+function computeTokenValue(token: GraphemeToken, system: AbjadSystem): number {
   const baseValue = getAbjadValue(token.base, system);
   if (baseValue === undefined) {
     return 0;
   }
 
-  if (method === 'reduced') {
-    return token.hasShadda ? toSmallAbjad(baseValue * 2) : toSmallAbjad(baseValue);
-  }
-
   if (token.hasShadda) {
-    return shaddaMultiplier('classic', baseValue);
+    return baseValue * 2;
   }
 
   return baseValue;
@@ -47,7 +25,6 @@ function computeTokenValue(
 function buildBreakdown(
   tokens: GraphemeToken[],
   normalizedText: string,
-  method: CalculationConfig['method'],
   system: AbjadSystem
 ): LetterBreakdown[] {
   const breakdown: LetterBreakdown[] = [];
@@ -65,7 +42,7 @@ function buildBreakdown(
       ignored = true;
       explanation = isTatweel ? 'Tatweel supprimé' : 'caractère non Abjad';
     } else {
-      value = computeTokenValue(token, method, system);
+      value = computeTokenValue(token, system);
     }
 
     breakdown.push({
@@ -100,7 +77,7 @@ function computeElementDistribution(tokens: GraphemeToken[]): {
 
 export function calculateAbjad(options: CalculateOptions): AbjadResult {
   const { text, config } = options;
-  const { method, system, reduction, phoneticMode, normalization } = config;
+  const { system, reduction, phoneticMode, normalization } = config;
 
   const { normalized } = normalizeText(text, {
     config: normalization,
@@ -109,7 +86,7 @@ export function calculateAbjad(options: CalculateOptions): AbjadResult {
 
   const tokens = parseGraphemes(normalized);
 
-  const breakdown = buildBreakdown(tokens, normalized, method, system);
+  const breakdown = buildBreakdown(tokens, normalized, system);
 
   const totalValue = breakdown.reduce((acc, item) => acc + item.value, 0);
 
@@ -120,7 +97,6 @@ export function calculateAbjad(options: CalculateOptions): AbjadResult {
     normalizedText: normalized,
     totalValue,
     breakdown,
-    methodDetails: METHODS[method],
     elementDistribution,
     timestamp: Date.now(),
   };

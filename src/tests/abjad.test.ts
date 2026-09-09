@@ -29,15 +29,6 @@ describe('Méthodes de calcul', () => {
   it('Grand Abjad : somme brute', () => {
     const result = calculateAbjad({ text: 'بسم', config: config() });
     expect(result.totalValue).toBe(102);
-    expect(result.methodDetails.id).toBe('classic');
-  });
-
-  it('Petit Abjad : valeurs ramenées', () => {
-    const result = calculateAbjad({
-      text: 'بسم',
-      config: config({ method: 'reduced' }),
-    });
-    expect(result.totalValue).toBe(2 + 6 + 4);
   });
 
   it('la réduction est distincte du calcul', () => {

@@ -2,7 +2,6 @@ import type { CalculationConfig } from '@/types';
 import { DEFAULT_NORMALIZATION_CONFIG } from './normalizer';
 
 export const DEFAULT_CALCULATION_CONFIG: CalculationConfig = {
-  method: 'classic',
   system: 'mashriqi',
   reduction: false,
   phoneticMode: false,
@@ -14,14 +13,12 @@ export const PROFILES: Record<
   CalculationConfig
 > = {
   standard: {
-    method: 'classic',
     system: 'mashriqi',
     reduction: false,
     phoneticMode: false,
     normalization: { ...DEFAULT_NORMALIZATION_CONFIG },
   },
   strict: {
-    method: 'classic',
     system: 'mashriqi',
     reduction: false,
     phoneticMode: false,
@@ -34,14 +31,12 @@ export const PROFILES: Record<
     },
   },
   phonetic: {
-    method: 'classic',
     system: 'mashriqi',
     reduction: false,
     phoneticMode: true,
     normalization: { ...DEFAULT_NORMALIZATION_CONFIG },
   },
   custom: {
-    method: 'classic',
     system: 'mashriqi',
     reduction: false,
     phoneticMode: false,

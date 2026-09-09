@@ -6,6 +6,7 @@ import {
   isAllowedOcrMimeType,
   type OcrErrorCode,
 } from '@/core/ocr';
+import { performClientOcr } from '@/lib/client-ocr';
 
 export type OcrStatus = 'idle' | 'processing' | 'success' | 'error';
 
@@ -62,42 +63,23 @@ export function useOcr() {
         lastRequest: { mimeType, base64 },
       });
 
-      try {
-        const response = await fetch('/api/ocr', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mimeType, base64, fileName: '' }),
-        });
+      const result = await performClientOcr(mimeType, base64);
 
-        const data = (await response.json()) as {
-          text?: string;
-          error?: string;
-          code?: OcrErrorCode;
-        };
-
-        if (!response.ok) {
-          setState((prev) => ({
-            ...prev,
-            status: 'error',
-            errorCode: data.code ?? 'provider_error',
-            errorDetail: data.error ?? '',
-          }));
-          return;
-        }
-
-        setState((prev) => ({
-          ...prev,
-          status: 'success',
-          extractedText: data.text ?? '',
-        }));
-      } catch {
+      if (!result.ok) {
         setState((prev) => ({
           ...prev,
           status: 'error',
-          errorCode: 'provider_error',
+          errorCode: result.code,
           errorDetail: '',
         }));
+        return;
       }
+
+      setState((prev) => ({
+        ...prev,
+        status: 'success',
+        extractedText: result.text,
+      }));
     },
     []
   );

@@ -1,6 +1,5 @@
 import { parseGraphemes, type GraphemeToken } from './grapheme-parser';
 import { getAbjadValue } from './alphabet';
-import { toSmallAbjad } from './reducer';
 import type { AbjadSystem } from '@/types';
 
 export const SHADDA_CHAR = '\u0651';
@@ -22,12 +21,8 @@ export function expandShadda(token: GraphemeToken): string[] {
   return [token.base, token.base];
 }
 
-export function shaddaMultiplier(method: 'classic' | 'reduced', baseValue: number): number {
-  const doubled = baseValue * 2;
-  if (method === 'reduced') {
-    return toSmallAbjad(doubled);
-  }
-  return doubled;
+export function shaddaMultiplier(baseValue: number): number {
+  return baseValue * 2;
 }
 
 export function analyzeLine(token: GraphemeToken): ShaddaExpansion {

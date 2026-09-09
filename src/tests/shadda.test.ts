@@ -78,21 +78,3 @@ describe('Shadda — calcul phonétique (Grand Abjad)', () => {
     expect(result.totalValue).toBe(4 + 2);
   });
 });
-
-describe('Shadda — calcul phonétique (Petit Abjad)', () => {
-  it('comptabilise لّ comme 3 + 3 = 6 en petit Abjad', () => {
-    const result = calculateAbjad({
-      text: 'لّ',
-      config: baseConfig({ method: 'reduced', phoneticMode: true }),
-    });
-    expect(result.totalValue).toBe(6);
-  });
-
-  it('comptabilise بّ comme 2 + 2 = 4 en petit Abjad', () => {
-    const result = calculateAbjad({
-      text: 'بّ',
-      config: baseConfig({ method: 'reduced', phoneticMode: true }),
-    });
-    expect(result.totalValue).toBe(4);
-  });
-});

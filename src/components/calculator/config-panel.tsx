@@ -8,7 +8,6 @@ import { Toggle } from '@/components/ui/toggle';
 
 function isEqualConfig(a: CalculationConfig, b: CalculationConfig): boolean {
   return (
-    a.method === b.method &&
     a.system === b.system &&
     a.reduction === b.reduction &&
     a.phoneticMode === b.phoneticMode &&
@@ -36,11 +35,7 @@ export function ConfigPanel({
   ).find((key) => isEqualConfig(config, PROFILES[key]));
 
   return (
-    <section
-      aria-label={t.config.profile}
-      className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
-    >
-      <div className="space-y-5">
+    <div className="space-y-5">
         {/* Profils */}
         <div>
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
@@ -113,42 +108,6 @@ export function ConfigPanel({
           </div>
         </div>
 
-        {/* Méthode */}
-        <div>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            {t.config.method}
-          </h3>
-          <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={t.config.method}>
-            {(['classic', 'reduced'] as const).map((method) => {
-              const selected = config.method === method;
-              return (
-                <button
-                  key={method}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  onClick={() => updateConfig({ method })}
-                  className={cn(
-                    'rounded-xl border p-3 text-start transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500',
-                    selected
-                      ? 'border-amber-500 bg-amber-50'
-                      : 'border-zinc-200 bg-white hover:bg-zinc-50'
-                  )}
-                >
-                  <span className="block text-sm font-semibold text-zinc-900">
-                    {method === 'classic' ? t.config.grandAbjad : t.config.petitAbjad}
-                  </span>
-                  <span className="mt-0.5 block text-xs text-zinc-500">
-                    {method === 'classic'
-                      ? t.config.grandAbjadDesc
-                      : t.config.petitAbjadDesc}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Réduction + phonétique */}
         <div className="space-y-3 rounded-xl border border-zinc-100 bg-zinc-50/60 p-3">
           <Toggle
@@ -197,6 +156,5 @@ export function ConfigPanel({
           </div>
         </div>
       </div>
-    </section>
   );
 }

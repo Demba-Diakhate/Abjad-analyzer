@@ -69,8 +69,9 @@ export function HistoryItem({ record }: { record: HistoryRecord }) {
           {sourceKey}
         </span>
         <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5">
-          {t.results.methods[record.result.methodDetails.id as keyof typeof t.results.methods] ??
-            record.result.methodDetails.name}
+          {record.calculationConfig?.system
+            ? t.config.systems[record.calculationConfig.system]
+            : t.config.systems.mashriqi}
         </span>
         <span>
           <DateLabel iso={record.createdAt} lang={lang} />

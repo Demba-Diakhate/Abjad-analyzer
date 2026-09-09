@@ -6,8 +6,3 @@ export function reduceValue(value: number): number {
   }
   return reduceValue(sum);
 }
-
-export function toSmallAbjad(value: number): number {
-  const reduced = reduceValue(value);
-  return reduced === 0 ? 0 : reduced;
-}

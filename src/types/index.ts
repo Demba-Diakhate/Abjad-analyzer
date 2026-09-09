@@ -6,12 +6,9 @@ export interface NormalizationConfig {
   removeTatweel: boolean;
 }
 
-export type CalculationMethod = 'classic' | 'reduced';
-
 export type AbjadSystem = 'mashriqi' | 'maghribi';
 
 export interface CalculationConfig {
-  method: CalculationMethod;
   system: AbjadSystem;
   reduction: boolean;
   phoneticMode: boolean;
@@ -37,19 +34,12 @@ export interface ElementDistribution {
   water: number;
 }
 
-export interface MethodDetails {
-  id: string;
-  name: string;
-  description: string;
-}
-
 export interface AbjadResult {
   originalText: string;
   normalizedText: string;
   totalValue: number;
   reducedValue?: number;
   breakdown: LetterBreakdown[];
-  methodDetails: MethodDetails;
   elementDistribution?: ElementDistribution;
   timestamp: number;
 }

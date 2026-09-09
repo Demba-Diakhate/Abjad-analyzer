@@ -13,6 +13,7 @@ import { ConfigPanel } from './config-panel';
 import { OcrPanel, type OcrPanelMode } from '@/components/ocr/ocr-panel';
 import { ResultDashboard } from '@/components/results/result-dashboard';
 import { Card } from '@/components/ui/card';
+import { Modal } from '@/components/ui/modal';
 import { cn, formatNumber } from '@/lib/utils';
 
 export function AbjadWorkbench() {
@@ -112,9 +113,6 @@ export function AbjadWorkbench() {
               )}
               <div className="ms-auto flex flex-wrap items-center gap-2">
                 <span className="inline-flex h-6 items-center rounded-full bg-amber-100 px-2.5 text-xs font-semibold text-amber-800">
-                  {t.results.methods[abjad.config.method]}
-                </span>
-                <span className="inline-flex h-6 items-center rounded-full bg-amber-100 px-2.5 text-xs font-semibold text-amber-800">
                   {t.config.systems[abjad.config.system]}
                 </span>
               </div>
@@ -158,11 +156,13 @@ export function AbjadWorkbench() {
         </div>
 
         {configOpen && (
-          <ConfigPanel
-            config={abjad.config}
-            updateConfig={abjad.updateConfig}
-            updateNormalization={abjad.updateNormalization}
-          />
+          <Modal open onClose={() => setConfigOpen(false)} labelledBy="config-dialog-title">
+            <ConfigPanel
+              config={abjad.config}
+              updateConfig={abjad.updateConfig}
+              updateNormalization={abjad.updateNormalization}
+            />
+          </Modal>
         )}
 
         {abjad.isCalculating && <span className="sr-only" aria-live="polite">…</span>}
